@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Đổi mật khẩu";
+}
+<form action="" id="doimatkhau" method="POST">
+	<div class="row">
+		<div class="col-12">
+			<div class="container pt-3">
+				<div class="form-group">
+					<label for="current_password">Mật khẩu hiện tại<span>(*)</span></label>
+					<input type="password" id="current_password" name="current_password" class="form-control form-control-sm">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="container pt-1">
+				<div class="form-group">
+					<label for="new_password">Mật khẩu mới<span>(*)</span></label>
+					<input type="password" id="new_password" name="new_password" class="form-control form-control-sm">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="container pt-1">
+				<div class="form-group">
+					<label for="confirm_new_password">Nhập lại mật khẩu mới<span>(*)</span></label>
+					<input type="password" id="confirm_new_password" name="confirm_new_password" class="form-control form-control-sm">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ctn-submit">
+		<button class="btn btn-primary btn-sm" id="btndoimatkhau" type="submit">Đổi mật khẩu</button>
+		<button class="btn btn-primary btn-sm" id="btnquaylai" type="button">Quay lại</button>
+	</div>
+</form>

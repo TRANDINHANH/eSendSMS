@@ -1,0 +1,301 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Quản lý nhóm";
+}
+
+<div class="container-group">
+    <div class="row px-0 mx-0">
+        <form id="them_nhom" method="POST">
+            <div class="row">
+                <div class="col-sm-4 offset-sm-2">
+                    <div class="form-group">
+                        <label for="ten_nhom">Tên nhóm<span>(*)</span></label>
+                        <input type="text"
+                               id="ten_nhom"
+                               name="ten_nhom"
+                               class="form-control form-control-sm"
+                               maxlength="50"
+                               autocomplete="off" />
+                        <input type="hidden" id="id_nhom" name="id_nhom" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="id_nhomcha">Nhóm cha<span>(*)</span></label>
+                        <select id="id_nhomcha"
+                                name="id_nhomcha"
+                                class="custom-select custom-select-sm">
+                            <option value="">--- Chọn nhóm cha ---</option>
+                            <option value="1">Trung tâm đăng kiểm</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4 offset-sm-2">
+                    <div class="form-group">
+                        <label for="trangthai">Trạng thái<span>(*)</span></label>
+                        <select id="trangthai"
+                                name="trangthai"
+                                class="custom-select custom-select-sm">
+                            <option value="1">Sử dụng</option>
+                            <option value="0">Không sử dụng</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="ctn-submit">
+                <button class="btn btn-primary btn-sm"
+                        id="btn_them_nhom"
+                        type="submit">
+                    Thêm
+                </button>
+                <button class="btn btn-primary btn-sm"
+                        id="btn_sua_nhom"
+                        type="submit">
+                    Sửa
+                </button>
+                <a class="btn btn-primary btn-sm"
+                   href=""
+                   type="button">Thêm người nhận</a>
+                <a class="btn btn-primary btn-sm"
+                   href=""
+                   type="button">Phân nhóm</a>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btn_them_nhom").click(function () {
+                var ten_nhom = $("input[name='ten_nhom']").val();
+                var ten_nhomcha = $("select[name='id_nhomcha']").val();
+                if (ten_nhom == "") {
+                    alert("Vui lòng nhập tên nhóm!");
+                    return false;
+                }
+                if (ten_nhomcha == "") {
+                    alert("Vui lòng chọn nhóm cha!");
+                    return false;
+                }
+                var data = $("form#them_nhom").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "http://ttdangkiem.vnpthanam.vn/wp-content/themes/HNM/act-them_nhom.php",
+                    data: data,
+                    success: function (data) {
+                        if (data == "false") {
+                            alert("Có lỗi xảy ra");
+                        } else {
+                            $("#request_content").html(data);
+                        }
+                    },
+                });
+                return false;
+            });
+            $("#btn_sua_nhom").click(function () {
+                var id_nhom = $("input[name='id_nhom']").val();
+                var ten_nhom = $("input[name='ten_nhom']").val();
+                var ten_nhomcha = $("select[name='id_nhomcha']").val();
+                if (id_nhom == "") {
+                    alert("Vui lòng chọn nhóm trong bảng trước khi sửa!");
+                    return false;
+                }
+                if (ten_nhom == "") {
+                    alert("Vui lòng nhập tên nhóm!");
+                    return false;
+                }
+                if (ten_nhomcha == "") {
+                    alert("Vui lòng chọn nhóm cha!");
+                    return false;
+                }
+                var data = $("form#them_nhom").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "http://ttdangkiem.vnpthanam.vn/wp-content/themes/HNM/act-sua_nhom.php",
+                    data: data,
+                    success: function (data) {
+                        if (data == "false") {
+                            alert("Có lỗi xảy ra");
+                        } else {
+                            $("#request_content").html(data);
+                        }
+                    },
+                });
+                return false;
+            });
+        });
+        $(document).ready(function () {
+            $("#tbl-show").DataTable();
+        });
+    </script>
+    <div id="request_content" class="text-center"></div>
+    <div id="show-query">
+        <div id="tbl-show_wrapper"
+             class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="tbl-show_length">
+                        <label>
+                            Hiển thị
+                            <select name="tbl-show_length"
+                                    aria-controls="tbl-show"
+                                    class="custom-select custom-select-sm form-control form-control-sm">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            dòng
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="tbl-show_filter" class="dataTables_filter">
+                        <label>
+                            Tìm kiếm:<input type="search"
+                                            class="form-control form-control-sm"
+                                            placeholder=""
+                                            aria-controls="tbl-show" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="tbl-show"
+                           class="table table-hover table-bordered dataTable no-footer"
+                           role="grid"
+                           aria-describedby="tbl-show_info">
+                        <thead class="thead text-white bg-primary">
+                            <tr role="row">
+                                <th class="stt sorting_asc"
+                                    width="5%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="STT: activate to sort column descending"
+                                    style="width: 71px">
+                                    STT
+                                </th>
+                                <th class="ten_nhom sorting"
+                                    width="45%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Tên nhóm: activate to sort column ascending"
+                                    style="width: 447.487px">
+                                    Tên nhóm
+                                </th>
+                                <th class="ten_nhomcha sorting"
+                                    width="30%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Nhóm cha: activate to sort column ascending"
+                                    style="width: 284.562px">
+                                    Nhóm cha
+                                </th>
+                                <th class="trangthai sorting"
+                                    width="20%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Trạng thái: activate to sort column ascending"
+                                    style="width: 176.9px">
+                                    Trạng thái
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row_2"
+                                onclick="loadnhom_2();"
+                                style="cursor: pointer"
+                                role="row"
+                                class="odd">
+                                <td class="stt sorting_1">1</td>
+                                <td class="ten_nhom">Xe ben</td>
+                                <td class="ten_nhomcha">Trung tâm đăng kiểm</td>
+                                <td class="trangthai text-center">Sử dụng</td>
+                            </tr>
+                            <tr id="row_1"
+                                onclick="loadnhom_1();"
+                                style="cursor: pointer"
+                                role="row"
+                                class="even">
+                                <td class="stt sorting_1">2</td>
+                                <td class="ten_nhom">Xe cơ giới</td>
+                                <td class="ten_nhomcha">Trung tâm đăng kiểm</td>
+                                <td class="trangthai text-center">Sử dụng</td>
+                            </tr>
+                            <tr id="row_4"
+                                onclick="loadnhom_4();"
+                                style="cursor: pointer"
+                                role="row"
+                                class="odd">
+                                <td class="stt sorting_1">3</td>
+                                <td class="ten_nhom">xe container</td>
+                                <td class="ten_nhomcha">Trung tâm đăng kiểm</td>
+                                <td class="trangthai text-center">Sử dụng</td>
+                            </tr>
+                            <tr id="row_3"
+                                onclick="loadnhom_3();"
+                                style="cursor: pointer"
+                                role="row"
+                                class="even">
+                                <td class="stt sorting_1">4</td>
+                                <td class="ten_nhom">Xe rơ moóc</td>
+                                <td class="ten_nhomcha">Trung tâm đăng kiểm</td>
+                                <td class="trangthai text-center">Sử dụng</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-5">
+                    <div class="dataTables_info"
+                         id="tbl-show_info"
+                         role="status"
+                         aria-live="polite">
+                        Hiển thị từ 1 tới 4 trong tổng số 4 dòng.
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-7">
+                    <div class="dataTables_paginate paging_simple_numbers"
+                         id="tbl-show_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button page-item previous disabled"
+                                id="tbl-show_previous">
+                                <a href="#"
+                                   aria-controls="tbl-show"
+                                   data-dt-idx="0"
+                                   tabindex="0"
+                                   class="page-link">Trang trước</a>
+                            </li>
+                            <li class="paginate_button page-item active">
+                                <a href="#"
+                                   aria-controls="tbl-show"
+                                   data-dt-idx="1"
+                                   tabindex="0"
+                                   class="page-link">1</a>
+                            </li>
+                            <li class="paginate_button page-item next disabled"
+                                id="tbl-show_next">
+                                <a href="#"
+                                   aria-controls="tbl-show"
+                                   data-dt-idx="2"
+                                   tabindex="0"
+                                   class="page-link">Trang sau</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\anhtr\\source\\repos\\eSendSMS\\eSendSMS\\eSendSMS.csproj": {}
+    "C:\\Users\\anhtr\\Source\\Repos\\TRANDINHANH\\eSendSMS\\eSendSMS\\eSendSMS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\anhtr\\source\\repos\\eSendSMS\\eSendSMS\\eSendSMS.csproj": {
+    "C:\\Users\\anhtr\\Source\\Repos\\TRANDINHANH\\eSendSMS\\eSendSMS\\eSendSMS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\anhtr\\source\\repos\\eSendSMS\\eSendSMS\\eSendSMS.csproj",
+        "projectUniqueName": "C:\\Users\\anhtr\\Source\\Repos\\TRANDINHANH\\eSendSMS\\eSendSMS\\eSendSMS.csproj",
         "projectName": "eSendSMS",
-        "projectPath": "C:\\Users\\anhtr\\source\\repos\\eSendSMS\\eSendSMS\\eSendSMS.csproj",
+        "projectPath": "C:\\Users\\anhtr\\Source\\Repos\\TRANDINHANH\\eSendSMS\\eSendSMS\\eSendSMS.csproj",
         "packagesPath": "C:\\Users\\anhtr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\anhtr\\source\\repos\\eSendSMS\\eSendSMS\\obj\\",
+        "outputPath": "C:\\Users\\anhtr\\Source\\Repos\\TRANDINHANH\\eSendSMS\\eSendSMS\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -45,6 +45,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -64,6 +68,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.1, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.11, )"
             }
           },
           "imports": [

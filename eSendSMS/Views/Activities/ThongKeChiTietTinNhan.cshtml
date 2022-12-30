@@ -1,0 +1,377 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Thống kê chi tiết Tin Nhắn";
+}
+
+<div class="container-fluid">
+    <form id="searchsms" action="" method="POST" class="p-0">
+        <div class="row">
+            <div class="col-3 offset-3 p-2">
+                <div class="form-group">
+                    <label>Từ ngày<span>(*)</span></label>
+                    <input name="from_date"
+                           type="date"
+                           class="form-control form-control-sm"
+                           value="2022-12-01" />
+                </div>
+            </div>
+            <div class="col-3 p-2">
+                <div class="form-group">
+                    <label>Tới ngày<span>(*)</span></label>
+                    <input name="to_date"
+                           type="date"
+                           class="form-control form-control-sm"
+                           value="2022-12-28" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="ctn-submit">
+                    <button id="button_send"
+                            type="submit"
+                            class="btn btn-primary btn-sm">
+                        Tìm kiếm
+                    </button>
+                    <button id="excel" type="button" class="btn btn-success btn-sm">
+                        Xuất Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#button_send").click(function () {
+                var from_date = $("input[name='from_date']").val();
+                var to_date = $("input[name='to_date']").val();
+                if (from_date == "") {
+                    alert("Vui lòng chọn ngày bắt đầu");
+                    return false;
+                }
+                if (to_date == "") {
+                    alert("Vui lòng chọn ngày đến");
+                    return false;
+                }
+                var data = $("form#searchsms").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "http://ttdangkiem.vnpthanam.vn/wp-content/themes/HNM/ajax_searchsms.php",
+                    data: data,
+                    success: function (data) {
+                        if (data == "false") {
+                            alert("Có lỗi xảy ra");
+                        } else {
+                            $("#show-query").html(data);
+                        }
+                    },
+                });
+                return false;
+            });
+            $("#excel").click(function () {
+                var from_date = $("input[name='from_date']").val();
+                var to_date = $("input[name='to_date']").val();
+                if (from_date == "") {
+                    alert("Vui lòng chọn ngày bắt đầu");
+                    return false;
+                }
+                if (to_date == "") {
+                    alert("Vui lòng chọn ngày đến");
+                    return false;
+                }
+                window.location.href =
+                    "http://ttdangkiem.vnpthanam.vn/?page_id=287&from_date=" +
+                    from_date +
+                    "&to_date=" +
+                    to_date;
+            });
+        });
+        $(document).ready(function () {
+            $("#tbl-show").DataTable();
+        });
+    </script>
+    <div id="show-query">
+        <div id="tbl-show_wrapper"
+             class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="tbl-show_length">
+                        <label>
+                            Hiển thị
+                            <select name="tbl-show_length"
+                                    aria-controls="tbl-show"
+                                    class="custom-select custom-select-sm form-control form-control-sm">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            dòng
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="tbl-show_filter" class="dataTables_filter">
+                        <label>
+                            Tìm kiếm:<input type="search"
+                                            class="form-control form-control-sm"
+                                            placeholder=""
+                                            aria-controls="tbl-show" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="tbl-show"
+                           class="table table-bordered dataTable no-footer"
+                           role="grid"
+                           aria-describedby="tbl-show_info">
+                        <thead class="thead text-white bg-primary">
+                            <tr role="row">
+                                <th class="stt sorting_asc"
+                                    width="5%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="STT: activate to sort column descending"
+                                    style="width: 31.35px">
+                                    STT
+                                </th>
+                                <th class="noidung sorting"
+                                    width="30%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Nội dung: activate to sort column ascending"
+                                    style="width: 403.163px">
+                                    Nội dung
+                                </th>
+                                <th class="file_dinhkem sorting"
+                                    width="25%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="File đính kèm: activate to sort column ascending"
+                                    style="width: 328.812px">
+                                    File đính kèm
+                                </th>
+                                <th class="nguoigui sorting"
+                                    width="10%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Người gửi: activate to sort column ascending"
+                                    style="width: 105.713px">
+                                    Người gửi
+                                </th>
+                                <th class="ngaygui sorting"
+                                    width="10%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Ngày gửi: activate to sort column ascending"
+                                    style="width: 105.713px">
+                                    Ngày gửi
+                                </th>
+                                <th class="tngui sorting"
+                                    width="10%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Số tin nhắn đã gửi: activate to sort column ascending"
+                                    style="width: 105.713px">
+                                    Số tin nhắn đã gửi
+                                </th>
+                                <th class="tnloi sorting"
+                                    width="10%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Số tin nhắn lỗi: activate to sort column ascending"
+                                    style="width: 106.738px">
+                                    Số tin nhắn lỗi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr role="row" class="odd">
+                                <td class="stt sorting_1">1</td>
+                                <td class="noidung">
+                                    <a href="#"
+                                       class="text-decoration-none"
+                                       onclick="chitiet(5);">
+                                        êtwafa
+                                    </a>
+                                </td>
+
+                                <td class="file_dinhkem">
+                                    <a target="_blank" href=""> </a> <br />
+                                </td>
+                                <td class="nguoigui">admin</td>
+                                <td class="ngaygui">20/09/2022 07:18:54</td>
+                                <td class="tngui text-center">0</td>
+                                <td class="tnloi text-center">
+                                    <a href="#"
+                                       class="btn btn-sm btn-danger font-weight-bold"
+                                       onclick="resend(5);">1</a>
+                                </td>
+                            </tr>
+                            <tr role="row" class="even">
+                                <td class="stt sorting_1">2</td>
+                                <td class="noidung">
+                                    <a href="#"
+                                       class="text-decoration-none"
+                                       onclick="chitiet(4);">
+                                        NHập nội dung tin nhắn
+                                    </a>
+                                </td>
+
+                                <td class="file_dinhkem">
+                                    <a target="_blank"
+                                       href="http://ttdangkiem.vnpthanam.vn/f/2022/03/Xe-container.docx">
+                                        Xe-container.docx
+                                    </a>
+                                    <br />
+                                </td>
+                                <td class="nguoigui">admin</td>
+                                <td class="ngaygui">29/03/2022 13:55:51</td>
+                                <td class="tngui text-center">3</td>
+                                <td class="tnloi text-center">0</td>
+                            </tr>
+                            <tr role="row" class="odd">
+                                <td class="stt sorting_1">3</td>
+                                <td class="noidung">
+                                    <a href="#"
+                                       class="text-decoration-none"
+                                       onclick="chitiet(3);">
+                                        test
+                                    </a>
+                                </td>
+
+                                <td class="file_dinhkem">
+                                    <a target="_blank"
+                                       href="http://ttdangkiem.vnpthanam.vn/f/2022/03/Xe-ben.docx">
+                                        Xe-ben.docx
+                                    </a>
+                                    <br />
+                                </td>
+                                <td class="nguoigui">admin</td>
+                                <td class="ngaygui">29/03/2022 11:14:55</td>
+                                <td class="tngui text-center">2</td>
+                                <td class="tnloi text-center">
+                                    <a href="#"
+                                       class="btn btn-sm btn-danger font-weight-bold"
+                                       onclick="resend(3);">1</a>
+                                </td>
+                            </tr>
+                            <tr role="row" class="even">
+                                <td class="stt sorting_1">4</td>
+                                <td class="noidung">
+                                    <a href="#"
+                                       class="text-decoration-none"
+                                       onclick="chitiet(2);">
+                                        test
+                                    </a>
+                                </td>
+
+                                <td class="file_dinhkem">
+                                    <a target="_blank"
+                                       href="http://sms.test/f/2021/12/motcua.jpg">
+                                        motcua.jpg
+                                    </a>
+                                    <br />
+                                </td>
+                                <td class="nguoigui">admin</td>
+                                <td class="ngaygui">29/03/2022 09:58:54</td>
+                                <td class="tngui text-center">2</td>
+                                <td class="tnloi text-center">0</td>
+                            </tr>
+                            <tr role="row" class="odd">
+                                <td class="stt sorting_1">5</td>
+                                <td class="noidung">
+                                    <a href="#"
+                                       class="text-decoration-none"
+                                       onclick="chitiet(1);">
+                                        test
+                                    </a>
+                                </td>
+
+                                <td class="file_dinhkem">
+                                    <a target="_blank" href=""> </a> <br />
+                                </td>
+                                <td class="nguoigui">admin</td>
+                                <td class="ngaygui">23/03/2022 19:00:02</td>
+                                <td class="tngui text-center">4</td>
+                                <td class="tnloi text-center">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-5">
+                    <div class="dataTables_info"
+                         id="tbl-show_info"
+                         role="status"
+                         aria-live="polite">
+                        Hiển thị từ 1 tới 5 trong tổng số 5 dòng.
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-7">
+                    <div class="dataTables_paginate paging_simple_numbers"
+                         id="tbl-show_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button page-item previous disabled"
+                                id="tbl-show_previous">
+                                <a href="#"
+                                   aria-controls="tbl-show"
+                                   data-dt-idx="0"
+                                   tabindex="0"
+                                   class="page-link">Trang trước</a>
+                            </li>
+                            <li class="paginate_button page-item active">
+                                <a href="#"
+                                   aria-controls="tbl-show"
+                                   data-dt-idx="1"
+                                   tabindex="0"
+                                   class="page-link">1</a>
+                            </li>
+                            <li class="paginate_button page-item next disabled"
+                                id="tbl-show_next">
+                                <a href="#"
+                                   aria-controls="tbl-show"
+                                   data-dt-idx="2"
+                                   tabindex="0"
+                                   class="page-link">Trang sau</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function chitiet(id_sms) {
+            $("#chitiet").load(
+                "http://ttdangkiem.vnpthanam.vn/wp-content/themes/HNM/ajax_chitiet_tinnhan.php?id_sms=" +
+                id_sms
+            );
+        }
+        function resend(id_sms) {
+            $("#chitiet").load(
+                "http://ttdangkiem.vnpthanam.vn/wp-content/themes/HNM/act-resend_all.php?id_sms=" +
+                id_sms
+            );
+        }
+    </script>
+    <div id="chitiet"></div>
+</div>

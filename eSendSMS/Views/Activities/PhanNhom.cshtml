@@ -1,0 +1,277 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Phân nhóm";
+}
+
+<form action="" id="phannhom" method="POST">
+    <div class="container pt-3">
+        <div class="row px-1">
+            <div class="col-sm-6 offset-sm-3 px-1">
+                <div class="form-group">
+                    <div id="nhom">
+                        <label for="id_nhom">Tên nhóm<span>(*)</span></label>
+                        <select id="id_nhom"
+                                name="id_nhom"
+                                class="custom-select custom-select-sm">
+                            <option value="">-- Chọn tên nhóm --</option>
+                            <option value="1">Xe cơ giới</option>
+                            <option value="2">Xe ben</option>
+                            <option value="3">Xe rơ moóc</option>
+                            <option value="4">xe container</option>
+                        </select>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $("#id_nhom").change(function () {
+                                    id_nhom = this.value;
+                                    $("#chon_canbo").load(
+                                        "http://ttdangkiem.vnpthanam.vn/wp-content/themes/HNM/ajax/ajax-pn_nhom.php?id_nhom=" +
+                                        id_nhom
+                                    );
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="chon_canbo">
+            <div class="row px-2">
+                <select name="id_canbo[]"
+                        id="id_canbo"
+                        multiple="multiple"
+                        style="display: none">
+                    <option value="1" data-key="0">chủ xe số 1 ● 0122333333 ●</option>
+                    <option value="2" data-key="1">chủ xe số 2 ● 0123455555 ●</option>
+                    <option value="3" data-key="2">chủ xe số 3 ● 0111111111 ●</option>
+                    <option value="4" data-key="3">chủ xe số 4 ● 0122222222 ●</option>
+                    <option value="5" data-key="4">chủ xe số 5 ● 0123333333 ●</option>
+                    <option value="8" data-key="5">chủ xe số 6 ● 0888280008 ●</option>
+                    <option value="9" data-key="6">zvxc ● vdsvs ● dfsdf</option>
+                </select>
+                <div class="tree-multiselect">
+                    <div class="selections">
+                        <div class="auxiliary">
+                            <input class="search" placeholder="Tìm kiếm..." />
+                            <div class="select-all-container">
+                                <span class="select-all">Chọn tất cả</span><span class="unselect-all">Hủy chọn tất cả</span>
+                            </div>
+                        </div>
+                        <div class="item" data-key="0" data-value="1">
+                            <input class="option"
+                                   type="checkbox"
+                                   id="treemultiselect-0-0" /><label class="" for="treemultiselect-0-0">chủ xe số 1 ● 0122333333 ●</label>
+                        </div>
+                        <div class="item" data-key="1" data-value="2">
+                            <input class="option"
+                                   type="checkbox"
+                                   id="treemultiselect-0-1" /><label class="" for="treemultiselect-0-1">chủ xe số 2 ● 0123455555 ●</label>
+                        </div>
+                        <div class="item" data-key="2" data-value="3">
+                            <input class="option"
+                                   type="checkbox"
+                                   id="treemultiselect-0-2" /><label class="" for="treemultiselect-0-2">chủ xe số 3 ● 0111111111 ●</label>
+                        </div>
+                        <div class="item" data-key="3" data-value="4">
+                            <input class="option"
+                                   type="checkbox"
+                                   id="treemultiselect-0-3" /><label class="" for="treemultiselect-0-3">chủ xe số 4 ● 0122222222 ●</label>
+                        </div>
+                        <div class="item" data-key="4" data-value="5">
+                            <input class="option"
+                                   type="checkbox"
+                                   id="treemultiselect-0-4" /><label class="" for="treemultiselect-0-4">chủ xe số 5 ● 0123333333 ●</label>
+                        </div>
+                        <div class="item" data-key="5" data-value="8">
+                            <input class="option"
+                                   type="checkbox"
+                                   id="treemultiselect-0-5" /><label class="" for="treemultiselect-0-5">chủ xe số 6 ● 0888280008 ●</label>
+                        </div>
+                        <div class="item" data-key="6" data-value="9">
+                            <input class="option"
+                                   type="checkbox"
+                                   id="treemultiselect-0-6" /><label class="" for="treemultiselect-0-6">zvxc ● vdsvs ● dfsdf</label>
+                        </div>
+                    </div>
+                    <div class="selected ui-sortable"></div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var tree1 = $("#id_canbo").treeMultiselect({
+                    startCollapsed: true,
+                    enableSelectAll: true,
+                    sortable: true,
+                    searchable: true,
+                });
+            </script>
+        </div>
+        <div class="ctn-submit">
+            <button id="btnphannhom" class="btn btn-sm btn-primary" type="submit">
+                Phân nhóm
+            </button>
+        </div>
+    </div>
+</form>
+<div class="container-fluid px-5">
+    <div id="show-query">
+        <div id="tbl-show_wrapper"
+             class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="tbl-show_length">
+                        <label>
+                            Hiển thị
+                            <select name="tbl-show_length"
+                                    aria-controls="tbl-show"
+                                    class="custom-select custom-select-sm form-control form-control-sm">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            dòng
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="tbl-show_filter" class="dataTables_filter">
+                        <label>
+                            Tìm kiếm:<input type="search"
+                                            class="form-control form-control-sm"
+                                            placeholder=""
+                                            aria-controls="tbl-show" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="tbl-show"
+                           class="table table-hover table-bordered dataTable no-footer"
+                           role="grid"
+                           aria-describedby="tbl-show_info">
+                        <thead class="thead text-white bg-primary">
+                            <tr role="row">
+                                <th class="stt sorting_asc"
+                                    width="5%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="STT: activate to sort column descending"
+                                    style="width: 28.05px">
+                                    STT
+                                </th>
+                                <th class="ten_nhom sorting"
+                                    width="25%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Tên nhóm: activate to sort column ascending"
+                                    style="width: 312.3px">
+                                    Tên nhóm
+                                </th>
+                                <th class="ten_canbo sorting"
+                                    width="70%"
+                                    tabindex="0"
+                                    aria-controls="tbl-show"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Danh sách cán bộ: activate to sort column ascending"
+                                    style="width: 952.85px">
+                                    Danh sách cán bộ
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row_1"
+                                onclick="loadnhom_1();"
+                                style="cursor: pointer"
+                                role="row"
+                                class="odd">
+                                <td class="stt sorting_1">1</td>
+                                <td class="ten_nhom">Xe cơ giới</td>
+                                <td class="ten_canbo">
+                                    chủ xe số 1; chủ xe số 2; chủ xe số 3; chủ xe số 4;
+                                </td>
+                            </tr>
+                            <tr id="row_2"
+                                onclick="loadnhom_2();"
+                                style="cursor: pointer"
+                                role="row"
+                                class="even">
+                                <td class="stt sorting_1">2</td>
+                                <td class="ten_nhom">Xe ben</td>
+                                <td class="ten_canbo">chủ xe số 2;</td>
+                            </tr>
+                            <tr id="row_3"
+                                onclick="loadnhom_3();"
+                                style="cursor: pointer"
+                                role="row"
+                                class="odd">
+                                <td class="stt sorting_1">3</td>
+                                <td class="ten_nhom">Xe rơ moóc</td>
+                                <td class="ten_canbo">chủ xe số 3;</td>
+                            </tr>
+                            <tr id="row_4"
+                                onclick="loadnhom_4();"
+                                style="cursor: pointer"
+                                role="row"
+                                class="even">
+                                <td class="stt sorting_1">4</td>
+                                <td class="ten_nhom">xe container</td>
+                                <td class="ten_canbo">
+                                    chủ xe số 4; chủ xe số 5; chủ xe số 6;
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-5">
+                    <div class="dataTables_info"
+                         id="tbl-show_info"
+                         role="status"
+                         aria-live="polite">
+                        Hiển thị từ 1 tới 4 trong tổng số 4 dòng.
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-7">
+                    <div class="dataTables_paginate paging_simple_numbers"
+                         id="tbl-show_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button page-item previous disabled"
+                                id="tbl-show_previous">
+                                <a href="#"
+                                   aria-controls="tbl-show"
+                                   data-dt-idx="0"
+                                   tabindex="0"
+                                   class="page-link">Trang trước</a>
+                            </li>
+                            <li class="paginate_button page-item active">
+                                <a href="#"
+                                   aria-controls="tbl-show"
+                                   data-dt-idx="1"
+                                   tabindex="0"
+                                   class="page-link">1</a>
+                            </li>
+                            <li class="paginate_button page-item next disabled"
+                                id="tbl-show_next">
+                                <a href="#"
+                                   aria-controls="tbl-show"
+                                   data-dt-idx="2"
+                                   tabindex="0"
+                                   class="page-link">Trang sau</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

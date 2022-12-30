@@ -1,0 +1,222 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Quản lý danh bạ";
+}
+
+<div class="container">
+    <div class="row px-0 mx-0">
+        <form id="them_canbo" method="POST">
+            <div class="row">
+                <div class="col-sm-4 offset-sm-2">
+                    <div class="form-group">
+                        <label for="ten_canbo">Tên cán bộ<span>(*)</span></label>
+                        <input type="text" id="ten_canbo" name="ten_canbo" class="form-control form-control-sm" maxlength="50" autocomplete="off">
+                        <input type="hidden" id="id_canbo" name="id_canbo">
+                    </div>
+                    <div class="form-group">
+                        <label for="so_dt">Số điện thoại<span>(*)</span></label>
+                        <input type="text" id="so_dt" name="so_dt" class="form-control form-control-sm" maxlength="10" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="trangthai">Trạng thái<span>(*)</span></label>
+                        <select id="trangthai" name="trangthai" class="custom-select custom-select-sm">
+                            <option value="1">Sử dụng</option>
+                            <option value="0">Xóa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="gioitinh">Giới tính<span>(*)</span></label>
+                        <select id="gioitinh" name="gioitinh" class="custom-select custom-select-sm">
+                            <option value="">-- Chọn giới tính --</option>
+                            <option value="1">Nam</option>
+                            <option value="0">Nữ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mota">Mô tả</label>
+                        <input type="text" id="mota" name="mota" class="form-control form-control-sm" maxlength="100" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="ctn-submit">
+                <button class="btn btn-primary btn-sm" id="btn_them_canbo" type="submit">Thêm</button>
+                <button class="btn btn-primary btn-sm" id="btn_sua_canbo" type="submit">Sửa</button>
+                <a class="btn btn-primary btn-sm" href="http://ttdangkiem.vnpthanam.vn/?page_id=15" type="button">Thêm nhóm</a>
+                <a class="btn btn-primary btn-sm" href="http://ttdangkiem.vnpthanam.vn/?page_id=272" type="button">Phân nhóm</a>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btn_them_canbo").click(function () {
+                var ten_canbo = $("input[name='ten_canbo']").val();
+                var so_dt = $("input[name='so_dt']").val();
+                var gioitinh = $("select[name='gioitinh']").val();
+                if (ten_canbo == '') {
+                    alert('Vui lòng nhập tên cán bộ!');
+                    return false;
+                }
+                // if(so_dt == ''){
+                // 	alert('Vui lòng nhập số điện thoại!');
+                // 	return false;
+                // } else {
+                // 	var vnf_regex = /((0|\+84)+([0-9]{9})\b)/g;
+                // 	if (vnf_regex.test(so_dt) == false)
+                // 	{
+                // 		alert('Số điện thoại không đúng định dạng!');
+                // 		return false;
+                // 	}
+                // }
+                if (gioitinh == '') {
+                    alert('Vui lòng chọn giới tính!');
+                    return false;
+                }
+                var data = $('form#them_canbo').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://ttdangkiem.vnpthanam.vn/wp-content/themes/HNM/act-them_canbo.php',
+                    data: data,
+                    success: function (data) {
+                        if (data == 'false') {
+                            alert('Có lỗi xảy ra');
+                        } else {
+                            $('#request_content').html(data);
+                        }
+                    }
+                });
+                return false;
+            });
+            $("#btn_sua_canbo").click(function () {
+                var ten_canbo = $("input[name='ten_canbo']").val();
+                var so_dt = $("input[name='so_dt']").val();
+                var gioitinh = $("select[name='gioitinh']").val();
+                if (ten_canbo == '') {
+                    alert('Vui lòng nhập tên cán bộ!');
+                    return false;
+                }
+                // if(so_dt == ''){
+                // 	alert('Vui lòng nhập số điện thoại!');
+                // 	return false;
+                // } else {
+                // 	var vnf_regex = /((0|\+84)+([0-9]{9})\b)/g;
+                // 	if (vnf_regex.test(so_dt) == false)
+                // 	{
+                // 		alert('Số điện thoại không đúng định dạng!');
+                // 		return false;
+                // 	}
+                // }
+                if (gioitinh == '') {
+                    alert('Vui lòng chọn giới tính!');
+                    return false;
+                }
+                var data = $('form#them_canbo').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://ttdangkiem.vnpthanam.vn/wp-content/themes/HNM/act-sua_canbo.php',
+                    data: data,
+                    success: function (data) {
+                        if (data == 'false') {
+                            alert('Có lỗi xảy ra');
+                        } else {
+                            $('#request_content').html(data);
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+        $(document).ready(function () {
+            $('#tbl-show').DataTable();
+        });
+    </script>
+    <div id="request_content" class="text-center"></div>
+    <div id="show-query">
+        <div id="tbl-show_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="tbl-show_length"><label>Hiển thị <select name="tbl-show_length" aria-controls="tbl-show" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> dòng</label></div></div><div class="col-sm-12 col-md-6"><div id="tbl-show_filter" class="dataTables_filter"><label>Tìm kiếm:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="tbl-show"></label></div></div></div><div class="row">
+                <div class="col-sm-12">
+                    <table id="tbl-show" class="table table-hover table-bordered dataTable no-footer" role="grid" aria-describedby="tbl-show_info">
+                        <thead class="thead text-white bg-primary">
+                            <tr role="row"><th class="stt sorting_asc" width="5%" tabindex="0" aria-controls="tbl-show" rowspan="1" colspan="1" aria-sort="ascending" aria-label="STT: activate to sort column descending" style="width: 34.7125px;">STT</th><th class="ten_canbo sorting" width="20%" tabindex="0" aria-controls="tbl-show" rowspan="1" colspan="1" aria-label="Tên cán bộ: activate to sort column ascending" style="width: 205.25px;">Tên cán bộ</th><th class="so_dt sorting" width="15%" tabindex="0" aria-controls="tbl-show" rowspan="1" colspan="1" aria-label="Số điện thoại: activate to sort column ascending" style="width: 143.188px;">Số điện thoại</th><th class="gioitinh sorting" width="10%" tabindex="0" aria-controls="tbl-show" rowspan="1" colspan="1" aria-label="Giới tính: activate to sort column ascending" style="width: 81.125px;">Giới tính</th><th class="mota sorting" width="38%" tabindex="0" aria-controls="tbl-show" rowspan="1" colspan="1" aria-label="Mô tả: activate to sort column ascending" style="width: 429.725px;">Mô tả</th></tr>
+                        </thead>
+                        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <tr id="row_9" onclick="loadcb_9();" style="cursor: pointer;" role="row" class="odd">
+                                <td class="stt sorting_1">1</td>
+                                <td class="ten_canbo">zvxc</td>
+                                <td class="so_dt text-center">vdsvs</td>
+                                <td class="gioitinh text-center">Nam</td>
+                                <td class="mota">dfsdf</td>
+                                <!--<td class="trangthai text-center"></td>-->
+                            </tr>
+                            <tr id="row_8" onclick="loadcb_8();" style="cursor: pointer;" role="row" class="even">
+                                <td class="stt sorting_1">2</td>
+                                <td class="ten_canbo">chủ xe số 6</td>
+                                <td class="so_dt text-center">0888280008</td>
+                                <td class="gioitinh text-center">Nam</td>
+                                <td class="mota"></td>
+                                <!--<td class="trangthai text-center"></td>-->
+                            </tr>
+                            <tr id="row_5" onclick="loadcb_5();" style="cursor: pointer;" role="row" class="odd">
+                                <td class="stt sorting_1">3</td>
+                                <td class="ten_canbo">chủ xe số 5</td>
+                                <td class="so_dt text-center">0123333333</td>
+                                <td class="gioitinh text-center">Nam</td>
+                                <td class="mota"></td>
+                                <!--<td class="trangthai text-center"></td>-->
+                            </tr>
+                            <tr id="row_4" onclick="loadcb_4();" style="cursor: pointer;" role="row" class="even">
+                                <td class="stt sorting_1">4</td>
+                                <td class="ten_canbo">chủ xe số 4</td>
+                                <td class="so_dt text-center">0122222222</td>
+                                <td class="gioitinh text-center">Nam</td>
+                                <td class="mota"></td>
+                                <!--<td class="trangthai text-center"></td>-->
+                            </tr>
+                            <tr id="row_3" onclick="loadcb_3();" style="cursor: pointer;" role="row" class="odd">
+                                <td class="stt sorting_1">5</td>
+                                <td class="ten_canbo">chủ xe số 3</td>
+                                <td class="so_dt text-center">0111111111</td>
+                                <td class="gioitinh text-center">Nam</td>
+                                <td class="mota"></td>
+                                <!--<td class="trangthai text-center"></td>-->
+                            </tr>
+                            <tr id="row_2" onclick="loadcb_2();" style="cursor: pointer;" role="row" class="even">
+                                <td class="stt sorting_1">6</td>
+                                <td class="ten_canbo">chủ xe số 2</td>
+                                <td class="so_dt text-center">0123455555</td>
+                                <td class="gioitinh text-center">Nam</td>
+                                <td class="mota"></td>
+                                <!--<td class="trangthai text-center"></td>-->
+                            </tr>
+                            <tr id="row_1" onclick="loadcb_1();" style="cursor: pointer;" role="row" class="odd">
+                                <td class="stt sorting_1">7</td>
+                                <td class="ten_canbo">chủ xe số 1</td>
+                                <td class="so_dt text-center">0122333333</td>
+                                <td class="gioitinh text-center">Nam</td>
+                                <td class="mota"></td>
+                                <!--<td class="trangthai text-center"></td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="tbl-show_info" role="status" aria-live="polite">Hiển thị từ 1 tới 7 trong tổng số 7 dòng.</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="tbl-show_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="tbl-show_previous"><a href="#" aria-controls="tbl-show" data-dt-idx="0" tabindex="0" class="page-link">Trang trước</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="tbl-show" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="tbl-show_next"><a href="#" aria-controls="tbl-show" data-dt-idx="2" tabindex="0" class="page-link">Trang sau</a></li></ul></div></div></div>
+        </div>
+    </div>
+</div>
